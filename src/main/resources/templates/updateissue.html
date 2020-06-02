@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>不好说</title>
+</head>
+<script language="javascript" src="../static/time.js" charset="utf-8"></script>
+<body>
+<form action="/updateissue " method="post">
+  <input type="hidden" name="iid" th:value="${issue.iid}">
+  <table align="center" cellspacing=1>
+    <tr>
+      <td>问题标题</td>
+      <td><input name="titl" th:value="${issue.titl}"/></td>
+    </tr>
+<!--    <tr>
+      <td>问题出现时间</td>
+      <td><input name="openTime" readonly onclick=setday(this)></td>
+    </tr>-->
+    <tr>
+      <td>问题描述</td>
+      <td><textarea name="content" th:text="${issue.content}" cols="60" rows="6"></textarea></td>
+    </tr>
+    <tr>
+      <td>问题处理人</td>
+      <td th:each="i:${user}"><input name="integerList" type="checkbox" th:value="${i.uid}" th:text="${i.username}"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type=submit  value="提 交"/>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

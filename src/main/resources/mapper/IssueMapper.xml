@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.piao888.issue.mapper.IssueMapper">
+    <resultMap id="BaseResultMap" type="top.piao888.issue.domain.Issue" >
+        <id column="IID" property="iid" jdbcType="DECIMAL" />
+        <result column="UID" property="uid" jdbcType="DECIMAL" />
+        <result column="TITL" property="titl" jdbcType="VARCHAR" />
+        <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+        <result column="STATUS" property="status" jdbcType="DECIMAL" />
+        <result column="CREATETIME" property="createtime" jdbcType="DATE" />
+        <result column="OPENTIME" property="opentime" jdbcType="DATE" />
+        <collection property="clusers" ofType="top.piao888.issue.domain.Users">
+            <result column="uid" property="uid" jdbcType="DECIMAL"/>
+            <result column="username" property="username" jdbcType="VARCHAR"/>
+        </collection>
+    </resultMap>
+    <select id="getAll" resultType="top.piao888.issue.domain.Issue">
+        select * from issue where izt=0
+    </select>
+    <delete id="delete"  parameterType="int">
+        update issue set izt=1 where iid=#{iid}
+    </delete>
+    <insert id="insert" parameterType="top.piao888.issue.domain.Issue">
+        <selectKey keyProperty="iid" order="AFTER" resultType="java.lang.Integer">
+            select LAST_INSERT_ID() as iid
+        </selectKey>
+        insert into issue values (null ,#{uid},#{titl},#{content},#{state},#{opentime},#{createtime},0)
+    </insert>
+
+    <select id="mhcx" parameterType="top.piao888.issue.DTO.IssueDTO" resultType="top.piao888.issue.domain.Issue">
+        select * from issue where izt=0
+            <if test="titl!=null and titl!=''">
+                and titl like "%"#{titl}"%"
+            </if>
+            <if test="state!=null and state!=''">
+                and state=#{state}
+            </if>
+            <if test="startDate!=null and startDate!='' and endDate!=null and endDate!=''">
+                and opentime between #{startDate} AND #{endDate}
+            </if>
+            <if test="uid!=null and uid!=''">
+                and uid=#{uid}
+            </if>
+            <if test="iid!=null and iid!=''">
+                and iid=#{iid}
+            </if>
+
+    </select>
+    <update id="update" parameterType="top.piao888.issue.domain.Issue">
+        update issue set titl=#{titl} , content=#{content} ,  state=#{state} where iid=#{iid}
+    </update>
+
+    <select id="clrcx" parameterType="top.piao888.issue.domain.Issue" resultMap="BaseResultMap">
+        select  i.iid,i.titl,i.content,i.state,u.username,u.uid,i.opentime
+        from issue i,issue_deal_users idu,users u
+        where i.iid=idu.iid AND u.uid=idu.uid and i.state=1 and izt=0
+        <if test="iid!=null and iid!=''">
+            and i.iid=#{iid}
+        </if>
+        <if test="uid!=null and uid!=''">
+            and idu.uid=#{uid}
+        </if>
+    </select>
+
+    <update id="state" parameterType="top.piao888.issue.domain.Issue">
+        update issue set state=#{state} where iid=#{iid}
+    </update>
+    <select id="getIssueById" parameterType="java.lang.Integer" resultType="top.piao888.issue.domain.Issue">
+        select * from issue where izt=0 and iid=#{iid}
+    </select>
+</mapper>

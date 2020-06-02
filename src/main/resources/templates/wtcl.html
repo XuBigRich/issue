@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>处理问题</title>
+</head>
+<script language="javascript" src="../static/time.js" charset="utf-8"></script>
+<body>
+<form action="cl" method="post">
+  <input type="hidden" name="iid" th:value="${pb.iid}">
+  <table align="center" cellspacing=1>
+    <tr>
+      <td>处理描述</td>
+      <td><textarea name="content" cols="60" rows="6"></textarea></td>
+    </tr>
+    <tr>
+      <td>是否能处理</td>
+      <td>
+        <select name="state">
+          <option th:each="i:${status}" th:value="${i.bid}" th:text="${i.message}"/>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type=submit  value="提 交"/>
+    </tr>
+  </table>
+</form>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.piao888.issue.mapper.UserMapper">
+    <select id="getAll" resultType="top.piao888.issue.domain.Users">
+        select * from users
+    </select>
+    <delete id="delete"  parameterType="int">
+        delete from users where did=#{id}
+    </delete>
+    <insert id="insert" parameterType="top.piao888.issue.domain.Users" >
+        insert into users(did,dname) values (#{did},#{dname})
+    </insert>
+    <select id="login" parameterType="top.piao888.issue.vo.ReqUser" resultType="top.piao888.issue.domain.Users">
+        select * from users
+        where username=#{username} and password=#{password}
+    </select>
+    <select id="getUserByUid" parameterType="java.lang.Integer" resultType="top.piao888.issue.domain.Users">
+        select * from users
+        where uid=#{uid}
+    </select>
+</mapper>

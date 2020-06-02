@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>allv</title>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdn.bootcss.com/smalot-bootstrap-datetimepicker/2.4.4/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+</head>
+<body>
+    <table>
+        <tr>
+            <a href="/tjwt">提出问题</a>
+            <a href="/beforcl">处理问题</a>
+            <a href="/wdwt">我的问题</a>
+        </tr>
+    </table>
+<!--模糊查询-->
+<form method="post" action="mhcx">
+    <table align="center">
+        <tr>
+            <th>问题标题</th>
+            <td><input type=text name="titl"></td>
+            <th>问题状态</th>
+            <td>
+                <input type=radio name="state" class=nob value="" checked>全部
+                <input type=radio name="state" class=nob value="1">等待处理
+                <input type=radio name="state" class=nob value="2">正在处理
+                <input type=radio name="state" class=nob value="3">已处理
+                <input type=radio name="state" class=nob value="4">无法处理
+            </td>
+        </tr>
+        <tr>
+            <th>时间段</th>
+            <td colspan="3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <!-- readonly代表是否为禁用输入 -->
+                                <input id="date1ID" class="form-control" name="startDate" value="开始时间" readonly>
+                            </div>
+                        </div>
+                        -
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <!-- readonly代表是否为禁用输入 -->
+                                <input id="dateID" class="form-control" name="endDate" value="结束时间" readonly>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr><th colspan=4><input type=submit value="查 询"></th></tr>
+    </table>
+</form>
+<!--问题展示-->
+<table align="center">
+    <thead>
+        <tr>
+            <td>问题标题</td>
+            <td>问题内容</td>
+            <td>问题状态</td>
+            <td>问题提交人</td>
+            <td>问题提交时间</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="i:${pb.show}">
+            <td th:text="${i.titl}"></td>
+            <td th:text="${i.content}"></td>
+            <td th:text="${i.state}"></td>
+            <td th:text="${i.username}"></td>
+            <td th:text="${i.createtime}"></td>
+        </tr>
+    </tbody>
+</table>
+    <span th:text="|共有 ${pb.count }条记录,当前第 ${pb.p } 页/共 ${pb.total }页|"/>
+<a href="/cxall?p=1">首页</a>
+<a th:href="|cxall?p=${pb.up}|">上一页</a>
+<a th:href="|cxall?p=${pb.down}|">下一页</a>
+<a th:href="|cxall?p=${pb.total }|">>尾页</a>
+</body>
+<script src="https://cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/smalot-bootstrap-datetimepicker/2.4.4/js/bootstrap-datetimepicker.min.js"></script>
+<script src="https://cdn.bootcss.com/smalot-bootstrap-datetimepicker/2.4.4/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript">
+    /* 第三步:初始化插件  */
+    $(function() {
+        $(".form-control").datetimepicker({
+            format : 'yyyy-mm-dd', // 展现格式
+            startDate : "2019-01-01",// 开始时间
+            endDate : "2020-01-01", // 结束时间
+            autoclose : true, // 选择日期后关闭
+            // 选择器打开之后首先显示的视图
+            // 0表示分钟(默认),1表示小时,2表示天,3表示月,4表示年
+            startView : 2,
+            // 选择器所能够提供的最精确的时间选择视图
+            // 0表示分钟(默认),1表示小时,2表示天,3表示月,4表示年
+            minView : 0,
+            language : 'zh-CN', //显示语言为中文
+        });
+
+    });
+</script>
+</html>

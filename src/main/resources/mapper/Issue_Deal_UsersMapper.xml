@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.piao888.issue.mapper.Issue_Deal_UsersMapper">
+    <select id="getAll" resultType="top.piao888.issue.domain.Issue_Deal_Users">
+        select * from issue_deal_users
+    </select>
+    <delete id="delete"  parameterType="int">
+        delete from issue_deal_users where iid=#{iid}
+    </delete>
+    <insert id="insert" parameterType="top.piao888.issue.domain.Issue_Deal_Users" >
+        insert into issue_deal_users(iid,uid) values (#{iid},#{uid})
+    </insert>
+</mapper>
